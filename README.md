@@ -40,46 +40,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-### Production Build
-
-```bash
-npm run build
-npm start
-```
-
-## 🌐 Deploy to Vercel
-
-### Prerequisites
-- [Vercel](https://vercel.com) account
-- PostgreSQL database (recommended: Vercel Postgres)
-
-### Quick Setup
-
-1. **Create PostgreSQL Database**
-   - Vercel Dashboard → Storage → Create Database → Postgres
-   - Copy the `DATABASE_URL`
-
-2. **Deploy**
-   ```bash
-   # Install Vercel CLI
-   npm i -g vercel
-   
-   # Deploy
-   vercel
-   ```
-
-3. **Configure Environment Variables**
-   - Settings → Environment Variables
-   - Add: `DATABASE_URL=postgres://...`
-
-4. **Initialize Database**
-   ```bash
-   # From your machine
-   vercel env pull .env.local
-   npx prisma db push
-   ```
-
-📖 **Complete Guide**: See [DEPLOY.md](./DEPLOY.md)
 
 ## 🔐 Security Architecture
 
@@ -110,63 +70,6 @@ npm start
 - ✅ No tracking, no cookies
 - ✅ Automatic expiry deletion
 
-## 📁 Project Structure
-
-```
-pastaa/
-├── app/
-│   ├── api/paste/          # API Routes
-│   ├── view/[id]/          # View page
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Homepage
-│   └── globals.css         # Global styles
-├── components/ui/          # UI Components
-├── lib/
-│   ├── crypto.ts           # Cryptography library
-│   ├── db.ts               # Prisma client
-│   └── utils.ts            # Utilities
-├── prisma/
-│   └── schema.prisma       # Database schema
-└── package.json
-```
-
-## 🎯 API Endpoints
-
-### POST `/api/paste`
-
-Create new encrypted paste.
-
-**Body**:
-```json
-{
-  "encryptedContent": "string",
-  "iv": "string",
-  "hasPassword": boolean,
-  "burnAfterReading": boolean,
-  "expiresIn": "1h" | "24h" | "7d" | "never"
-}
-```
-
-**Response**:
-```json
-{
-  "id": "uuid"
-}
-```
-
-### GET `/api/paste/{id}`
-
-Retrieve encrypted paste.
-
-**Response**:
-```json
-{
-  "encryptedContent": "string",
-  "iv": "string",
-  "hasPassword": boolean,
-  "burnAfterReading": boolean
-}
-```
 
 ## 🔧 Configuration
 
@@ -178,66 +81,10 @@ Create `.env` file:
 DATABASE_URL="file:./dev.db"
 ```
 
-### Database
-
-The project uses SQLite for simplicity. For production, consider PostgreSQL:
-
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-## 📦 Deploy
-
-### Vercel
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-RUN npm run db:push
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-## 🔒 Best Practices
-
-1. **URL Fragment**: The key in URL fragment (#) is NEVER sent to the server
-2. **HTTPS Required**: Always use HTTPS in production
-3. **Limits**: Max 100KB of text per paste
-4. **Cleanup**: Automatic job to delete expired pastes
-
-## 📄 License
+## License
 
 MIT License - Use freely!
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests welcome! For major changes, please open an issue first.
-
-## 🙏 Credits
-
-Created with ❤️ using:
-- [Next.js](https://nextjs.org/)
-- [Shadcn UI](https://ui.shadcn.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Prisma](https://www.prisma.io/)
-
----
-
-**⚠️ Disclaimer**: This is an educational project. For production use, consider professional security audits.
